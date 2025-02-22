@@ -1,0 +1,31 @@
+name: Run Tests on Push
+
+# Триггер: запуск workflow при каждом push в репозиторий
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Используем последнюю версию Ubuntu
+
+    steps:
+      # Шаг 1: Проверка кода (checkout)
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Шаг 2: Установка Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Указываем версию Node.js
+
+      # Шаг 3: Установка зависимостей (если есть package.json)
+      - name: Install dependencies
+        run: npm install
+
+      # Шаг 4: Запуск тестов
+      - name: Run tests
+        run: node test.js # Запуск вашего тестового файла
+
+      # Шаг 5: Вывод сообщения о завершении работы
+      - name: Log completion message
+        run: echo "Workflow завершён. Все тесты выполнены."
